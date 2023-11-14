@@ -10,7 +10,8 @@
     <div class="" style="border: 2px solid black; padding: 15px">
         <h1>This is the home page!</h1>
         <a href="/register">Register</a><br>
-        <a href="/login">Login</a>
+        <a href="/login">Login</a><br>
+        <a href="/dashboard">Dashboard</a>
 
         <div class="">
             <h2>All snippets</h2>
@@ -18,6 +19,12 @@
                 <div class="" style="margin: 10px; padding: 5px; border: 1px solid black">
                     <h3>{{$snippet['title']}}</h3>
                     {{$snippet['body']}}
+                    <p><a href="/edit-snippet/{{$snippet->id}}">Edit</a></p>
+                    <form action="/delte-snippet/{{$snippet->id}}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button>Delete</button>
+                    </form>
                 </div>
             @endforeach
         </div>

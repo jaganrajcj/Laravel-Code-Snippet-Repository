@@ -38,6 +38,22 @@
             <button>Save Snippet</button>
         </form>
     </div>
+    <div class="">
+        <h2>All snippets</h2>
+        @foreach($snippets as $snippet) 
+            <div class="" style="margin: 10px; padding: 5px; border: 1px solid black">
+                <h3>{{$snippet['title']}}</h3>
+                <span><i>@ {{$snippet->user->name}}</i></span><br>
+                {{$snippet['body']}}
+                <p><a href="/edit-snippet/{{$snippet->id}}">Edit</a></p>
+                <form action="/delete-snippet/{{$snippet->id}}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button>Delete</button>
+                </form>
+            </div>
+        @endforeach
+    </div>
     @else
     <h3>You are not logged in</h3>
     @endauth

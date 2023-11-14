@@ -23,4 +23,39 @@ class SnippetController extends Controller
         
         return redirect('/dashboard');
     }
+
+    public function showEditScreen(Snippet $snippet) {
+
+        if(auth()->user()->id !== $snippet['user_id']) {
+            return redirect('/');
+        }
+
+        return view('edit-snippet', ['snippet' => $snippet]);
+    }
+
+    public function updatePost(Snippet $snippet, Request $request) {
+
+        if(auth()->user()->id !== $snippet['user_id']) {
+            return redirect('/');
+        }
+
+        $incomingFields = $request->validate([
+            'title' => 'required',
+            'body' => 'required',
+            'language' => 'required',
+        ]);
+
+        $snippet->update($incomingFields);
+
+        return redirect('/dashboard');
+    }
+
+    public function deletePost(Snippet $snippet) {
+
+        if(auth()->user()->id == $snippet['user_id']) {
+            $snippet->delete();
+        }
+        
+        return redirect('/');
+    }
 }

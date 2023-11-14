@@ -23,7 +23,8 @@ Route::get('/', function () {
     return view('home', ['snippets' =>  $snippets]);
 });
 Route::get('dashboard', function() { 
-    return view('dashboard'); 
+    $snippets = Snippet::where('user_id', auth()->id())->get();
+    return view('dashboard', ['snippets' =>  $snippets]); 
 });
 
 // Auth Routes 
@@ -35,6 +36,9 @@ Route::post('/logout', [UserController::class, 'logout']);
 
 // Snippet Routes
 Route::post('/create-snippet', [SnippetController::class, 'createSnippet']);
+Route::get('/edit-snippet/{snippet}', [SnippetController::class,  'showEditScreen']);
+Route::put('/edit-snippet/{snippet}', [SnippetController::class,  'updatePost']);
+Route::delete('/delete-snippet/{snippet}', [SnippetController::class,  'deletePost']);
 
 
 

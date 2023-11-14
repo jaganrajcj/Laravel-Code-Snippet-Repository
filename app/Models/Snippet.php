@@ -10,4 +10,8 @@ class Snippet extends Model
     use HasFactory;
 
     protected $fillable = ['title', 'body', 'user_id', 'language'];
+
+    public function user() {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
