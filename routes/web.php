@@ -17,28 +17,45 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Main page routes
-Route::get('/', function () {
+Route::get('/h', function () {
     // $snippets = auth()->user()->usersSnippets()->latest()->get();
     $snippets = Snippet::where('user_id', auth()->id())->get();
     return view('home', ['snippets' =>  $snippets]);
 });
-Route::get('dashboard', function() { 
+
+Route::get('/', function(){
+    return view('welcome');
+});
+
+Route::get('/dashboard1', function() { 
     $snippets = Snippet::where('user_id', auth()->id())->get();
     return view('dashboard', ['snippets' =>  $snippets]); 
 });
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', function() { 
+        $snippets = Snippet::where('user_id', auth()->id())->get();
+        return view('dashboard1', ['snippets' =>  $snippets]); 
+    });
+});
+    
 // Auth Routes 
 Route::get('/register', function() { return view('register'); });
 Route::post('/register', [UserController::class, 'register']);
-Route::get('/login', function() { return view('login'); });
+Route::get('/login', function() { return view('login'); })->name('login');
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/logout', [UserController::class, 'logout']);
+Route::get('/logout', [UserController::class, 'logout']);
 
 // Snippet Routes
 Route::post('/create-snippet', [SnippetController::class, 'createSnippet']);
+Route::get('/create-snippet', function() {
+    return view('create-snippet');
+});
+
 Route::get('/edit-snippet/{snippet}', [SnippetController::class,  'showEditScreen']);
 Route::put('/edit-snippet/{snippet}', [SnippetController::class,  'updatePost']);
-Route::delete('/delete-snippet/{snippet}', [SnippetController::class,  'deletePost']);
+Route::get('/delete-snippet/{snippet}', [SnippetController::class,  'deletePost']);
 
 
 

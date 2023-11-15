@@ -16,7 +16,7 @@ class SnippetController extends Controller
         ]);
 
         $incomingFields['title'] = strip_tags($incomingFields['title']);
-        $incomingFields['body'] = strip_tags($incomingFields['body']);
+        // $incomingFields['body'] = strip_tags($incomingFields['body']);
         $incomingFields['user_id'] = auth()->id();
 
         Snippet::create($incomingFields);
@@ -56,6 +56,6 @@ class SnippetController extends Controller
             $snippet->delete();
         }
         
-        return redirect('/');
+        return redirect('/dashboard');
     }
 }
